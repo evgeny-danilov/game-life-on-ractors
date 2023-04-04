@@ -15,7 +15,7 @@ class Entity
     loop do
       move!
       Ractor.yield([id, position])
-      # sleep(0.1)
+      sleep(0.1)
     rescue => e
       puts "Exception raised: #{e.message}"
       puts e.backtrace
