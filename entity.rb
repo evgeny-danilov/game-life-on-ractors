@@ -1,27 +1,30 @@
 # frozen_string_literal: true
 
 class Entity
-  attr_reader :position, :id
+
+  def self.spawn(id)
+    new(id).run
+  end
 
   def initialize(id)
     @position = VECTOR.new(x: rand(BOARD_SIZE.x), y: rand(BOARD_SIZE.y))
     @id = id
-    DISPLAY.send([@id, @position])
   end
 
-  def x = position.x
-  def y = position.y
-
-  def movement
+  def run
     loop do
       move!
-      DISPLAY.send([id, position])
-      sleep(0.1)
+      Ractor.yield([id, position])
+      # sleep(0.1)
     rescue => e
       puts "Exception raised: #{e.message}"
       puts e.backtrace
     end
   end
+
+  private
+
+  attr_reader :position, :id
 
   def move!
     possible_position = position + random_vector
@@ -29,8 +32,6 @@ class Entity
 
     @position = possible_position
   end
-
-  private
 
   def random_vector
     VECTOR.new(

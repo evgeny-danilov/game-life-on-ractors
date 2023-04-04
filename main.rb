@@ -15,20 +15,28 @@ require_relative 'gamer'
 
 BOARD_SIZE = VECTOR.new(x: 30, y: 30).freeze
 
-DISPLAY = Ractor.new { Display.draw }
-
 class Life
   def self.run
+    entity_ractors = spawn_entities(count: 20)
 
-    20.times.each_with_index do |id|
+    frame = 0
+
+    loop do
+      entities = entity_ractors.map(&:take)
+      image = Display.generate_image(entities)
+      Printer.call(image, frame: frame)
+      frame += 1
+
+      entity_ractors.each { _1.send(image, move: true) }
+    end
+  end
+
+  def self.spawn_entities(count:)
+    count.times.each_with_index.map do |id|
       Ractor.new(id) do |id|
-        Entity.new(id).movement
+        Entity.spawn(id)
       end
     end
-
-    # Ractor.new { Gamer.spawn }
-
-    loop { }
   end
 end
 

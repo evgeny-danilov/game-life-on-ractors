@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
 class Display
-  def self.draw
-    entities = {}
-    frame = 1
-
-    loop do
-      id, position = Ractor.receive
-      entities[id] = position
-
-      image = Display.generate_image(entities)
-      Printer.call(image, frame: frame, entities_count: entities.keys.count)
-      frame += 1
-      # validate_entities(entities)
-
-      sleep 0.01
-    rescue => e
-      puts "Exception raised: #{e.message}"
-      puts e.backtrace
-    end
-  end
+  # def self.draw
+  #   entities = {}
+  #   frame = 1
+  #
+  #   loop do
+  #     id, position = Ractor.receive
+  #     entities[id] = position
+  #
+  #     image = Display.generate_image(entities)
+  #     Printer.call(image, frame: frame, entities_count: entities.keys.count)
+  #     frame += 1
+  #     # validate_entities(entities)
+  #
+  #     sleep 0.01
+  #   rescue => e
+  #     puts "Exception raised: #{e.message}"
+  #     puts e.backtrace
+  #   end
+  # end
 
   def self.generate_image(entities)
     width, height = BOARD_SIZE.x, BOARD_SIZE.y
     result = height.times.map { "□" * width }
 
-    entities.each_pair do |id, position|
+    entities.each do |id, position|
       result[position.y][position.x] = get_symbol("✱", id) # "Ⓐ"
 
       result[position.y][position.x - 1] = "["
