@@ -3,11 +3,11 @@
 require 'ostruct'
 require 'byebug'
 
-require_relative 'vector'
-require_relative 'printer'
-require_relative 'entity'
-require_relative 'display'
-require_relative 'gamer'
+require_relative 'lib/vector'
+require_relative 'lib/printer'
+require_relative 'lib/entity'
+require_relative 'lib/display'
+require_relative 'lib/gamer'
 
 # TracePoint.trace(:call, :line, :return) do |tp|
 #   p [tp.lineno, tp.defined_class, tp.method_id, tp.event]
