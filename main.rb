@@ -13,11 +13,11 @@ require_relative 'lib/gamer'
 #   p [tp.lineno, tp.defined_class, tp.method_id, tp.event]
 # end
 
-BOARD_SIZE = VECTOR.new(x: 10, y: 5).freeze
+BOARD_SIZE = VECTOR.new(x: 500, y: 500).freeze
 
 class Life
   def self.run
-    entity_ractors = spawn_entities(count: 5)
+    entity_ractors = spawn_entities(count: 150)
 
     frame = 0
     entities = {}

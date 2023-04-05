@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Display
+  MAX_DRAWING_AREA = VECTOR.new(x: 50, y: 20)
   # def self.draw
   #   entities = {}
   #   frame = 1
@@ -22,17 +23,27 @@ class Display
   # end
 
   def self.generate_area(entities)
-    width, height = BOARD_SIZE.x, BOARD_SIZE.y
+    width = [BOARD_SIZE.x, MAX_DRAWING_AREA.x].min
+    height = [BOARD_SIZE.y, MAX_DRAWING_AREA.y].min
+
     result = height.times.map { "□" * width }
 
     entities.each_pair do |id, position|
-      result[position.y][position.x] = get_symbol("✱", id) # "Ⓐ"
+      next if position_over_the_board?(position)
 
+      byebug if result[position.y].nil?
+
+      result[position.y][position.x] = get_symbol("✱", id) # "Ⓐ"
       result[position.y][position.x - 1] = "["
       result[position.y][position.x + 1] = "]"
     end
 
     result.map(&:freeze).freeze
+  end
+
+  def self.position_over_the_board?(position)
+    position.x >= MAX_DRAWING_AREA.x ||
+      position.y >= MAX_DRAWING_AREA.y
   end
 
   def self.validate_entities(entities)
@@ -41,9 +52,9 @@ class Display
     raise if all_positions.uniq.count != all_positions.count
   end
 
-  def self.get_symbol(s, iter)
-    return s if iter == 0
+  def self.get_symbol(sym, iter)
+    return sym if iter == 0
 
-    get_symbol(s.succ, iter - 1)
+    get_symbol(sym.succ, iter - 1)
   end
 end

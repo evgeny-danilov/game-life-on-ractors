@@ -6,11 +6,11 @@ class Printer
     move_cursor_to_the_top
 
     area.each do |row|
-      p row
+      puts row
     end
 
-    p "Frame: #{frame}" if frame
-    p "Entities count: #{entities_count}" if entities_count
+    puts "Frame: #{frame}" if frame
+    puts "Entities count: #{entities_count}" if entities_count
   end
 
   private
