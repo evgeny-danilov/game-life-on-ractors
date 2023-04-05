@@ -13,21 +13,23 @@ require_relative 'gamer'
 #   p [tp.lineno, tp.defined_class, tp.method_id, tp.event]
 # end
 
-BOARD_SIZE = VECTOR.new(x: 30, y: 30).freeze
+BOARD_SIZE = VECTOR.new(x: 10, y: 5).freeze
 
 class Life
   def self.run
-    entity_ractors = spawn_entities(count: 20)
+    entity_ractors = spawn_entities(count: 5)
 
     frame = 0
+    entities = {}
 
     loop do
-      entities = entity_ractors.map(&:take)
-      image = Display.generate_image(entities)
-      Printer.call(image, frame: frame)
+      entity_ractors.each { _1.send(entities.dup.freeze) }
+
+      entities = entity_ractors.map(&:take).to_h
+      area = Display.generate_area(entities)
+      Printer.call(area, frame: frame)
       frame += 1
 
-      entity_ractors.each { _1.send(image, move: true) }
     end
   end
 

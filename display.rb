@@ -9,8 +9,8 @@ class Display
   #     id, position = Ractor.receive
   #     entities[id] = position
   #
-  #     image = Display.generate_image(entities)
-  #     Printer.call(image, frame: frame, entities_count: entities.keys.count)
+  #     area = Display.generate_area(entities)
+  #     Printer.call(area, frame: frame, entities_count: entities.keys.count)
   #     frame += 1
   #     # validate_entities(entities)
   #
@@ -21,11 +21,11 @@ class Display
   #   end
   # end
 
-  def self.generate_image(entities)
+  def self.generate_area(entities)
     width, height = BOARD_SIZE.x, BOARD_SIZE.y
     result = height.times.map { "□" * width }
 
-    entities.each do |id, position|
+    entities.each_pair do |id, position|
       result[position.y][position.x] = get_symbol("✱", id) # "Ⓐ"
 
       result[position.y][position.x - 1] = "["

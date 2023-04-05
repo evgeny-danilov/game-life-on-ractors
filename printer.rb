@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Printer
-  def self.call(image, frame: nil, entities_count: nil)
+  def self.call(area, frame: nil, entities_count: nil)
     clear_console
     move_cursor_to_the_top
 
-    image.each do |row|
+    area.each do |row|
       p row
     end
 
